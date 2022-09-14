@@ -28,7 +28,7 @@ const ColumnTime = () => {
     return (
         <>
             <div className="w-32 sticky left-0 z-20 bg-white">
-                <div className="border border-gray-300 border-l-0 bg-white px-2 py-1 h-[36px] capitalize sticky top-0 z-10">
+                <div className="border border-gray-300 border-l-0 bg-white px-2 py-1 h-[84px] capitalize sticky top-0 z-10">
                     ...
                 </div>
                 <div>
