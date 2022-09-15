@@ -1,11 +1,15 @@
-import ColumnTime from "./ColumnTime_Comp";
-import ColumnDay from "./ColumnDay_Comp";
-import NextPrevNav from "./NextPrevNavigation_Comp";
+import ColumnHeadComp from "./ColumnHead_Comp";
+import ColumnTimeComp from "./ColumnTime_Comp";
+import ColumnDayComp from "./ColumnDay_Comp";
+import NextPrevNavComp from "./NextPrevNavigation_Comp";
+import CalendarComp from "./Calendar_Comp";
+import TimeLineComp from "./TimeLine_Comp";
 import { useState, useEffect } from "react";
 import { startOfWeek, addDays } from "date-fns";
-import { id } from "date-fns/locale";
 
 const LayoutTable = () => {
+    // const today = new Date();
+    const [today, setToday] = useState(new Date());
     const [dateSelected, setDateSelected] = useState(new Date());
     const [dates, setDates] = useState([]);
 
@@ -19,26 +23,41 @@ const LayoutTable = () => {
         setDates(dates_temp);
     }, [dateSelected]);
 
+    useEffect(() => {
+        let intervalId = setInterval(() => {
+            setToday(new Date());
+            console.log("Update" + today);
+        }, 30000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
+
     return (
-        <div className="max-w-full flex flex-col h-screen">
-            <NextPrevNav
-                dateSelected={dateSelected}
-                setDateSelected={setDateSelected}
-            />
-            <div className="overflow-auto flex flex-grow text-xs">
-                <div className="flex min-w-max">
-                    <ColumnTime />
-                    {dates.map((itmDate) => (
-                        <ColumnDay itmDate={itmDate} />
-                    ))}
-                    {/* <ColumnDay day="senin" />
-                    <ColumnDay day="selasa" />
-                    <ColumnDay day="rabu" />
-                    <ColumnDay day="kamis" />
-                    <ColumnDay day="jumat" />
-                    <ColumnDay day="sabtu" />
-                    <ColumnDay day="minggu" /> */}
+        <div className="max-w-full overflow-x-hidden flex">
+            <div className="flex flex-col h-screen w-60 grow">
+                <NextPrevNavComp
+                    dateSelected={dateSelected}
+                    setDateSelected={setDateSelected}
+                />
+                <div className="overflow-auto text-xs">
+                    <div className="flex h-fit min-w-max relative">
+                        <ColumnHeadComp dates={dates} today={today} />
+                        <ColumnTimeComp today={today} />
+                        {dates.map((itmDate) => (
+                            <ColumnDayComp
+                                itmDate={itmDate}
+                                today={today}
+                                key={itmDate}
+                            />
+                        ))}
+                        <TimeLineComp today={today} />
+                    </div>
                 </div>
+            </div>
+            <div className="">
+                <CalendarComp />
             </div>
         </div>
     );

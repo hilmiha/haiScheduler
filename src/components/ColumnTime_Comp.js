@@ -1,4 +1,5 @@
-const ColumnTime = () => {
+import TimeLineClockComp from "./TimeLineClock_Comp";
+const ColumnTimeComp = ({ today }) => {
     const time = [
         "00:00",
         "01:00",
@@ -27,11 +28,9 @@ const ColumnTime = () => {
     ];
     return (
         <>
-            <div className="w-32 sticky left-0 z-20 bg-white">
-                <div className="border border-gray-300 border-l-0 bg-white px-2 py-1 h-[84px] capitalize sticky top-0 z-10">
-                    ...
-                </div>
+            <div className="w-32 sticky left-0 z-20 bg-gray-100 mt-[48px]">
                 <div>
+                    <TimeLineClockComp today={today} />
                     {time.map((timeItm) => {
                         return (
                             <div
@@ -48,4 +47,4 @@ const ColumnTime = () => {
     );
 };
 
-export default ColumnTime;
+export default ColumnTimeComp;

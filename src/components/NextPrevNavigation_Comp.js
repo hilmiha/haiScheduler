@@ -8,7 +8,7 @@ import {
 } from "date-fns";
 import { id } from "date-fns/locale";
 
-const NextPrevNav = ({ dateSelected, setDateSelected }) => {
+const NextPrevNavComp = ({ dateSelected, setDateSelected }) => {
     const startWeek = startOfWeek(dateSelected, { weekStartsOn: 1 });
     const endWeek = endOfWeek(dateSelected, { weekStartsOn: 1 });
 
@@ -32,10 +32,10 @@ const NextPrevNav = ({ dateSelected, setDateSelected }) => {
             <div>
                 <span className="font-bold text-xl">
                     {getMonth(startWeek) === getMonth(endWeek)
-                        ? format(startWeek, "MMMM", { locale: id })
-                        : format(startWeek, "MMMM", { locale: id }) +
+                        ? format(startWeek, "MMMM yyyy", { locale: id })
+                        : format(startWeek, "MMMM yyyy", { locale: id }) +
                           " / " +
-                          format(endWeek, "MMMM", { locale: id })}
+                          format(endWeek, "MMMM yyyy", { locale: id })}
                 </span>
             </div>
             <div>
@@ -49,4 +49,4 @@ const NextPrevNav = ({ dateSelected, setDateSelected }) => {
         </div>
     );
 };
-export default NextPrevNav;
+export default NextPrevNavComp;
