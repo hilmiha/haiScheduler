@@ -28,7 +28,7 @@ const ColumnTimeComp = ({ today }) => {
     ];
     return (
         <>
-            <div className="w-32 sticky left-0 z-20 bg-gray-100 mt-[48px]">
+            <div className="w-32 sticky left-0 z-10 bg-gray-100 mt-[48px]">
                 <div>
                     <TimeLineClockComp today={today} />
                     {time.map((timeItm) => {

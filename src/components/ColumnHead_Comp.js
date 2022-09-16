@@ -3,7 +3,7 @@ import { id } from "date-fns/locale";
 
 const ColumnHeadComp = ({ dates, today }) => {
     return (
-        <div className="absolute z-50 h-full flex w-full pointer-events-none">
+        <div className="absolute z-20 h-full flex w-full pointer-events-none">
             <div className="border border-gray-300 border-l-0 bg-gray-100 px-2 py-1 h-[48px] capitalize sticky top-0 left-0 z-20 w-32"></div>
 
             {dates.map((itmDate) => {

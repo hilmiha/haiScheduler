@@ -1,17 +1,19 @@
 import ColumnHeadComp from "./ColumnHead_Comp";
 import ColumnTimeComp from "./ColumnTime_Comp";
 import ColumnDayComp from "./ColumnDay_Comp";
-import NextPrevNavComp from "./NextPrevNavigation_Comp";
-import CalendarComp from "./Calendar_Comp";
 import TimeLineComp from "./TimeLine_Comp";
+import NavNextPrevComp from "./NavNextPrev_Comp";
+import NavButtonFuncComp from "./NavButtonFunc_Comp";
+
+import SideCanvasComp from "./SideCanvas_Comp";
 import { useState, useEffect } from "react";
 import { startOfWeek, addDays } from "date-fns";
 
 const LayoutTable = () => {
-    // const today = new Date();
     const [today, setToday] = useState(new Date());
     const [dateSelected, setDateSelected] = useState(new Date());
     const [dates, setDates] = useState([]);
+    const [sideNavOpen, setSideNavOpen] = useState(false);
 
     useEffect(() => {
         const startDate = startOfWeek(dateSelected, { weekStartsOn: 1 });
@@ -35,12 +37,25 @@ const LayoutTable = () => {
     }, []);
 
     return (
-        <div className="max-w-full overflow-x-hidden flex">
-            <div className="flex flex-col h-screen w-60 grow">
-                <NextPrevNavComp
-                    dateSelected={dateSelected}
-                    setDateSelected={setDateSelected}
-                />
+        <>
+            <SideCanvasComp
+                sideNavOpen={sideNavOpen}
+                setSideNavOpen={setSideNavOpen}
+            />
+            <div className="flex flex-col h-screen w-full">
+                <div className="flex">
+                    <NavNextPrevComp
+                        dateSelected={dateSelected}
+                        setDateSelected={setDateSelected}
+                    />
+                    <NavButtonFuncComp
+                        today={today}
+                        dateSelected={dateSelected}
+                        setDateSelected={setDateSelected}
+                        setSideNavOpen={setSideNavOpen}
+                    />
+                </div>
+
                 <div className="overflow-auto text-xs">
                     <div className="flex h-fit min-w-max relative">
                         <ColumnHeadComp dates={dates} today={today} />
@@ -56,10 +71,7 @@ const LayoutTable = () => {
                     </div>
                 </div>
             </div>
-            <div className="">
-                <CalendarComp />
-            </div>
-        </div>
+        </>
     );
 };
 

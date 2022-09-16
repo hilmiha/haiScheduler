@@ -9,7 +9,7 @@ const TimeLineClockComp = ({ today }) => {
             className="absolute border border-red-500 rounded-br-xl bg-red-500 pl-2 pr-3 py-2 text-white"
             style={{ marginTop: marginTop + "px" }}
         >
-            {format(today, "hh:mm")}
+            {format(today, "HH:mm")}
         </div>
     );
 };

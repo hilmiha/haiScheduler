@@ -7,7 +7,7 @@ const TimeLineComp = ({ today }) => {
     return (
         <div className="absolute pt-[48px] w-full">
             <div
-                className="border-2 border-x-0 border-b-0 absolute border-red-500 z-30 w-full"
+                className="border-2 border-x-0 border-b-0 absolute border-red-500 z-10 w-full"
                 style={{ marginTop: marginTop + "px" }}
             ></div>
         </div>
