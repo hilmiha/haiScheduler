@@ -9,7 +9,7 @@ const EmptyJdwlComp = () => {
     );
 };
 
-const ColumnDayComp = ({ itmDate, today }) => {
+const ColumnDayComp = ({ itmDate, today, setPopSelectedIdJdwl }) => {
     const EmptyJadwal = [];
 
     for (let i = 0; i < 24; i++) {
@@ -112,11 +112,14 @@ const ColumnDayComp = ({ itmDate, today }) => {
     return (
         <div
             className={
-                "relative mt-[48px] w-44 grow " +
+                "relative mt-[48px] w-52 grow " +
                 (isSameDay(itmDate, today) ? "bg-white" : "bg-gray-100")
             }
         >
-            <JadwalInDayComp jadwalItms={JadwalInSenin} />
+            <JadwalInDayComp
+                jadwalItms={JadwalInSenin}
+                setPopSelectedIdJdwl={setPopSelectedIdJdwl}
+            />
 
             <div>{EmptyJadwal.map((row) => row)}</div>
         </div>

@@ -1,6 +1,6 @@
 import "react-toggle/style.css";
 import Toggle from "react-toggle";
-
+import { format } from "date-fns";
 import ColorItemPicComp from "./FormComp/ColorItemPick_Comp";
 import DatePickComp from "./FormComp/DatePick_Comp";
 import TimePickComp from "./FormComp/TimePick_Comp";
@@ -10,18 +10,31 @@ import {
     IoTimeOutline,
     IoAddCircleOutline,
 } from "react-icons/io5";
+import { MdEditCalendar } from "react-icons/md";
 import { useState } from "react";
 
-const FormAddEventComp = ({ dateSelected }) => {
-    const [inputJudul, setInputJudul] = useState("");
-    const [inputColor, setInputColor] = useState("blue");
-    const [inputDateStart, setInputDateStart] = useState(dateSelected);
-    const [inputJamStart, setInputJamStart] = useState("00");
-    const [inputMenitStart, setInputMenitStart] = useState("00");
-    const [inputDateEnd, setInputDateEnd] = useState(dateSelected);
-    const [inputJamEnd, setInputJamEnd] = useState("00");
-    const [inputMenitEnd, setInputMenitEnd] = useState("00");
-    const [inputCatatan, setInputCatatan] = useState("");
+const FormEditJadwalComp = ({ popSelectedIdJdwl }) => {
+    const [inputJudul, setInputJudul] = useState(popSelectedIdJdwl.title);
+    const [inputColor, setInputColor] = useState(popSelectedIdJdwl.color);
+    const [inputDateStart, setInputDateStart] = useState(
+        new Date(popSelectedIdJdwl.start)
+    );
+    const [inputJamStart, setInputJamStart] = useState(
+        format(new Date(popSelectedIdJdwl.start), "HH")
+    );
+    const [inputMenitStart, setInputMenitStart] = useState(
+        format(new Date(popSelectedIdJdwl.start), "mm")
+    );
+    const [inputDateEnd, setInputDateEnd] = useState(
+        new Date(popSelectedIdJdwl.end)
+    );
+    const [inputJamEnd, setInputJamEnd] = useState(
+        format(new Date(popSelectedIdJdwl.end), "HH")
+    );
+    const [inputMenitEnd, setInputMenitEnd] = useState(
+        format(new Date(popSelectedIdJdwl.end), "mm")
+    );
+    const [inputCatatan, setInputCatatan] = useState(popSelectedIdJdwl.catatan);
 
     const handleInputTyping = (event, editElm) => {
         switch (editElm) {
@@ -38,11 +51,10 @@ const FormAddEventComp = ({ dateSelected }) => {
                 break;
         }
     };
-
     return (
-        <div className="mt-4 px-8">
+        <div className="p-8">
             <div className="mb-8">
-                <p className="text-lg font-bold">Add Event</p>
+                <p className="text-lg font-bold">Edit Event</p>
             </div>
             <div className="flex flex-col">
                 <div className="flex items-center">
@@ -133,12 +145,13 @@ const FormAddEventComp = ({ dateSelected }) => {
             </div>
             <hr className="my-8" />
             <div className="mb-8">
-                <button className="w-full bg-sky-400 rounded-md px-4 py-2 text-white">
-                    Tambah Event
+                <button className="w-full bg-sky-400 rounded-md px-4 py-3 text-white flex justify-center items-center">
+                    <MdEditCalendar size={20} />
+                    <span className="ml-2">Edit Event</span>
                 </button>
             </div>
         </div>
     );
 };
 
-export default FormAddEventComp;
+export default FormEditJadwalComp;

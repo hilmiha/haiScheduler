@@ -4,44 +4,19 @@ import {
     format,
     startOfDay,
 } from "date-fns";
+import colorVar from "../utils/ColorVar";
 
-const colorVar = [
-    {
-        name: "orange",
-        bgColor: "#fed7aa", //orange-200
-        brColor: "#c2410c", //orange-700
-    },
-    {
-        name: "yellow",
-        bgColor: "#fef08a", //yellow-200
-        brColor: "#a16207", //yellow-700
-    },
-    {
-        name: "green",
-        bgColor: "#d9f99d", //lime-200
-        brColor: "#4d7c0f", //lime-700
-    },
-    {
-        name: "blue",
-        bgColor: "#bae6fd", //sky-200
-        brColor: "#0369a1", //sky-700
-    },
-    {
-        name: "purple",
-        bgColor: "#f5d0fe", //Fuchsia-200
-        brColor: "#a21caf", //Fuchsia-700
-    },
-    {
-        name: "red",
-        bgColor: "#fecdd3", //rose-200
-        brColor: "#be123c", //rose-700
-    },
-];
-
-const JadwalItemComp = ({ title, catatan, time, color, mt, h, ml }) => {
+const JadwalItemComp = ({ jadwalItm, mt, h, ml, setPopSelectedIdJdwl }) => {
     const itmColor = colorVar.filter((clr) => {
-        return clr.name === color;
+        return clr.name === jadwalItm.color;
     });
+    const start = new Date(jadwalItm.start);
+    const end = new Date(jadwalItm.end);
+    const time = format(start, "HH:mm") + " - " + format(end, "HH:mm");
+
+    const setSelected = () => {
+        setPopSelectedIdJdwl(jadwalItm);
+    };
 
     return (
         <div className="absolute w-full pl-[10px] pointer-events-none">
@@ -56,13 +31,11 @@ const JadwalItemComp = ({ title, catatan, time, color, mt, h, ml }) => {
                     borderColor: itmColor[0].brColor,
                     backgroundColor: itmColor[0].bgColor,
                 }}
-                onClick={() => {
-                    alert("Hello! I am an alert box!!" + time);
-                }}
+                onClick={setSelected}
             >
                 <div className="sticky top-[48px]">
                     <p className={h <= 36 ? "hidden" : null}>{time}</p>
-                    <p className="font-bold line-clamp-1">{title}</p>
+                    <p className="font-bold line-clamp-1">{jadwalItm.title}</p>
 
                     <div
                         className={
@@ -73,7 +46,7 @@ const JadwalItemComp = ({ title, catatan, time, color, mt, h, ml }) => {
                                 : "mt-3 line-clamp-2"
                         }
                     >
-                        <p>{catatan}</p>
+                        <p>{jadwalItm.catatan}</p>
                     </div>
                 </div>
             </div>
@@ -81,7 +54,7 @@ const JadwalItemComp = ({ title, catatan, time, color, mt, h, ml }) => {
     );
 };
 
-const JadwalInDayComp = ({ jadwalItms }) => {
+const JadwalInDayComp = ({ jadwalItms, setPopSelectedIdJdwl }) => {
     const processedJadwalDay = [];
     let overlapMl = 0;
 
@@ -115,13 +88,11 @@ const JadwalInDayComp = ({ jadwalItms }) => {
 
         processedJadwalDay.push(
             <JadwalItemComp
-                title={jadwalItms[i].title}
-                catatan={jadwalItms[i].catatan}
-                time={format(start, "HH:mm") + " - " + format(end, "HH:mm")}
-                color={jadwalItms[i].color}
+                jadwalItm={jadwalItms[i]}
                 mt={marginTop}
                 h={heightItm}
                 ml={overlapMl}
+                setPopSelectedIdJdwl={setPopSelectedIdJdwl}
                 key={jadwalItms[i].id}
             />
         );

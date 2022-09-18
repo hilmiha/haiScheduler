@@ -1,6 +1,6 @@
 import FormAddEventComp from "./FormAddEvent_Comp";
 
-const SideCanvasComp = ({ sideNavOpen, setSideNavOpen }) => {
+const SideCanvasComp = ({ dateSelected, sideNavOpen, setSideNavOpen }) => {
     const handleClodeSideNav = () => {
         setSideNavOpen(false);
     };
@@ -13,7 +13,7 @@ const SideCanvasComp = ({ sideNavOpen, setSideNavOpen }) => {
                     onClick={handleClodeSideNav}
                 ></div>
                 <div className="bg-white w-[400px] max-h-screen overflow-auto">
-                    <FormAddEventComp />
+                    <FormAddEventComp dateSelected={dateSelected} />
                 </div>
             </div>
         );
