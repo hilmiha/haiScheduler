@@ -1,5 +1,7 @@
 import JadwalInDayComp from "./ItemJadwal_Comp";
-import { isSameDay } from "date-fns";
+import { isSameDay, format } from "date-fns";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const EmptyJdwlComp = () => {
     return (
@@ -9,105 +11,132 @@ const EmptyJdwlComp = () => {
     );
 };
 
-const ColumnDayComp = ({ itmDate, today, setPopSelectedIdJdwl }) => {
+const ColumnDayComp = ({
+    itmDate,
+    lastUpdate,
+    today,
+    setPopSelectedIdJdwl,
+}) => {
     const EmptyJadwal = [];
 
     for (let i = 0; i < 24; i++) {
         EmptyJadwal.push(<EmptyJdwlComp key={i} />);
     }
 
-    const JadwalInSenin = [
-        {
-            id: "1029388213",
-            title: "Basda Asdlhaw ashdao saodjhaow sjodhawd asjhda",
-            start: "2022-09-12T00:00:00",
-            end: "2022-09-12T03:00:00",
-            catatan: "test catatan 1",
-            color: "green",
-        },
-        {
-            id: "1029380233",
-            title: "Llkansd Kksnaw sahd ajdwhao uahsabdis sadohw",
-            start: "2022-09-12T02:00:00",
-            end: "2022-09-12T04:30:00",
-            catatan:
-                "aksdja sjadhaw djsgdakjwhd kahsgdjaw asdkgakjwd kshdakwhd asuhdkjwb asgdauwgduahsiod askjd",
-            color: "red",
-        },
-        {
-            id: "1029399834",
-            title: "Llkansd Kksnaw sahd ajdwhao uahsabdis sadohw",
-            start: "2022-09-12T03:00:00",
-            end: "2022-09-12T05:00:00",
-            catatan:
-                "aksdja sjadhaw djsgdakjwhd kahsgdjaw asdkgakjwd kshdakwhd asuhdkjwb asgdauwgduahsiod askjd",
-            color: "yellow",
-        },
-        {
-            id: "0298477189",
-            title: "Pnalw Leas sadhowia isahdoaw oiadhwi h",
-            start: "2022-09-12T06:00:00",
-            end: "2022-09-12T09:30:00",
-            catatan: "test catatan 3 sadlah dawhd adhwalbw audhwua",
-            color: "green",
-        },
-        {
-            id: "1029387732",
-            title: "Pnalw Leas sadhowia isahdoaw oiadhwi h",
-            start: "2022-09-12T07:00:00",
-            end: "2022-09-12T08:00:00",
-            catatan: "test catatan 3 sadlah dawhd adhwalbw audhwua",
-            color: "purple",
-        },
-        {
-            id: "102938773sda2",
-            title: "Pnalw Leas sadhowia isahdoaw oiadhwi h",
-            start: "2022-09-12T07:30:00",
-            end: "2022-09-12T10:00:00",
-            catatan: "test catatan 3 sadlah dawhd adhwalbw audhwua",
-            color: "orange",
-        },
-        {
-            id: "1029383009",
-            title: "Pnalw Leas sadhowia isahdoaw oiadhwi h",
-            start: "2022-09-12T08:30:00",
-            end: "2022-09-12T09:00:00",
-            catatan: "test catatan 3 sadlah dawhd adhwalbw audhwua",
-            color: "blue",
-        },
-        {
-            id: "1029300356",
-            title: "Pnalw Leas sadhowia isahdoaw oiadhwi h",
-            start: "2022-09-12T11:00:00",
-            end: "2022-09-12T14:30:00",
-            catatan: "test catatan 3 sadlah dawhd adhwalbw audhwua",
-            color: "yellow",
-        },
-        {
-            id: "1029300357",
-            title: "Pnalw Leas sadhowia isahdoaw oiadhwi h",
-            start: "2022-09-12T12:00:00",
-            end: "2022-09-12T12:30:00",
-            catatan: "test catatan 3 sadlah dawhd adhwalbw audhwua",
-            color: "red",
-        },
-        {
-            id: "1029300358",
-            title: "Pnalw Leas sadhowia isahdoaw oiadhwi h",
-            start: "2022-09-12T13:00:00",
-            end: "2022-09-12T14:00:00",
-            catatan: "test catatan 3 sadlah dawhd adhwalbw audhwua",
-            color: "purple",
-        },
-        {
-            id: "1029389300",
-            title: "Pnalw Leas",
-            start: "2022-09-12T16:00:00",
-            end: "2022-09-12T23:59:00",
-            catatan: "test catatan 3",
-            color: "orange",
-        },
-    ];
+    const [itemJadwals, setItemJadlwals] = useState([]);
+
+    const fetchDataUser = () => {
+        const date = format(itmDate, "yyyy-MM-dd");
+        const url =
+            "http://localhost:3004/events?start_like=" +
+            date +
+            "&_sort=start&_order=asc";
+        axios
+            .get(url)
+            .then((res) => {
+                setItemJadlwals(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    useEffect(() => {
+        fetchDataUser();
+    }, [lastUpdate]);
+
+    // const JadwalInSenin = [
+    // {
+    //     id: "1029388213",
+    //     title: "Basda Asdlhaw ashdao saodjhaow sjodhawd asjhda",
+    //     start: "2022-09-12T00:00:00",
+    //     end: "2022-09-12T03:00:00",
+    //     catatan: "test catatan 1",
+    //     color: "green",
+    // },
+    // {
+    //     id: "1029380233",
+    //     title: "Llkansd Kksnaw sahd ajdwhao uahsabdis sadohw",
+    //     start: "2022-09-12T02:00:00",
+    //     end: "2022-09-12T04:30:00",
+    //     catatan:
+    //         "aksdja sjadhaw djsgdakjwhd kahsgdjaw asdkgakjwd kshdakwhd asuhdkjwb asgdauwgduahsiod askjd",
+    //     color: "red",
+    // },
+    //     {
+    //         id: "1029399834",
+    //         title: "Llkansd Kksnaw sahd ajdwhao uahsabdis sadohw",
+    //         start: "2022-09-12T03:00:00",
+    //         end: "2022-09-12T05:00:00",
+    //         catatan:
+    //             "aksdja sjadhaw djsgdakjwhd kahsgdjaw asdkgakjwd kshdakwhd asuhdkjwb asgdauwgduahsiod askjd",
+    //         color: "yellow",
+    //     },
+    //     {
+    //         id: "0298477189",
+    //         title: "Pnalw Leas sadhowia isahdoaw oiadhwi h",
+    //         start: "2022-09-12T06:00:00",
+    //         end: "2022-09-12T09:30:00",
+    //         catatan: "test catatan 3 sadlah dawhd adhwalbw audhwua",
+    //         color: "green",
+    //     },
+    //     {
+    //         id: "1029387732",
+    //         title: "Pnalw Leas sadhowia isahdoaw oiadhwi h",
+    //         start: "2022-09-12T07:00:00",
+    //         end: "2022-09-12T08:00:00",
+    //         catatan: "test catatan 3 sadlah dawhd adhwalbw audhwua",
+    //         color: "purple",
+    //     },
+    //     {
+    //         id: "102938773sda2",
+    //         title: "Pnalw Leas sadhowia isahdoaw oiadhwi h",
+    //         start: "2022-09-12T07:30:00",
+    //         end: "2022-09-12T10:00:00",
+    //         catatan: "test catatan 3 sadlah dawhd adhwalbw audhwua",
+    //         color: "orange",
+    //     },
+    //     {
+    //         id: "1029383009",
+    //         title: "Pnalw Leas sadhowia isahdoaw oiadhwi h",
+    //         start: "2022-09-12T08:30:00",
+    //         end: "2022-09-12T09:00:00",
+    //         catatan: "test catatan 3 sadlah dawhd adhwalbw audhwua",
+    //         color: "blue",
+    //     },
+    //     {
+    //         id: "1029300356",
+    //         title: "Pnalw Leas sadhowia isahdoaw oiadhwi h",
+    //         start: "2022-09-12T11:00:00",
+    //         end: "2022-09-12T14:30:00",
+    //         catatan: "test catatan 3 sadlah dawhd adhwalbw audhwua",
+    //         color: "yellow",
+    //     },
+    //     {
+    //         id: "1029300357",
+    //         title: "Pnalw Leas sadhowia isahdoaw oiadhwi h",
+    //         start: "2022-09-12T12:00:00",
+    //         end: "2022-09-12T12:30:00",
+    //         catatan: "test catatan 3 sadlah dawhd adhwalbw audhwua",
+    //         color: "red",
+    //     },
+    //     {
+    //         id: "1029300358",
+    //         title: "Pnalw Leas sadhowia isahdoaw oiadhwi h",
+    //         start: "2022-09-12T13:00:00",
+    //         end: "2022-09-12T14:00:00",
+    //         catatan: "test catatan 3 sadlah dawhd adhwalbw audhwua",
+    //         color: "purple",
+    //     },
+    //     {
+    //         id: "1029389300",
+    //         title: "Pnalw Leas",
+    //         start: "2022-09-12T16:00:00",
+    //         end: "2022-09-12T23:59:00",
+    //         catatan: "test catatan 3",
+    //         color: "orange",
+    //     },
+    // ];
 
     return (
         <div
@@ -117,7 +146,7 @@ const ColumnDayComp = ({ itmDate, today, setPopSelectedIdJdwl }) => {
             }
         >
             <JadwalInDayComp
-                jadwalItms={JadwalInSenin}
+                jadwalItms={itemJadwals}
                 setPopSelectedIdJdwl={setPopSelectedIdJdwl}
             />
 

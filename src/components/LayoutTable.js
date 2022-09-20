@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { startOfWeek, addDays } from "date-fns";
 
 const LayoutTable = () => {
+    const [lastUpdate, setLastUpdate] = useState(new Date());
     const [today, setToday] = useState(new Date());
     const [dateSelected, setDateSelected] = useState(new Date());
     const [dates, setDates] = useState([]);
@@ -55,8 +56,10 @@ const LayoutTable = () => {
                 setPopSelectedIdJdwl={setPopSelectedIdJdwl}
                 popUpEdit={popUpEdit}
                 setPopUpEdit={setPopUpEdit}
+                setLastUpdate={setLastUpdate}
             />
             <SideCanvasComp
+                setLastUpdate={setLastUpdate}
                 dateSelected={dateSelected}
                 sideNavOpen={sideNavOpen}
                 setSideNavOpen={setSideNavOpen}
@@ -82,6 +85,7 @@ const LayoutTable = () => {
                         {dates.map((itmDate) => (
                             <ColumnDayComp
                                 itmDate={itmDate}
+                                lastUpdate={lastUpdate}
                                 today={today}
                                 setPopSelectedIdJdwl={setPopSelectedIdJdwl}
                                 key={itmDate}

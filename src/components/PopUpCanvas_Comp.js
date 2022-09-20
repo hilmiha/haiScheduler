@@ -8,6 +8,7 @@ const PopUpCanvasComp = ({
     setPopSelectedIdJdwl,
     popUpEdit,
     setPopUpEdit,
+    setLastUpdate,
 }) => {
     const handleClodePopUp = () => {
         setPopUpOpen(false);
@@ -26,6 +27,9 @@ const PopUpCanvasComp = ({
                     {popUpEdit ? (
                         <FormEditJadwalComp
                             popSelectedIdJdwl={popSelectedIdJdwl}
+                            setPopUpEdit={setPopUpEdit}
+                            setLastUpdate={setLastUpdate}
+                            setPopSelectedIdJdwl={setPopSelectedIdJdwl}
                         />
                     ) : (
                         <FormDetailJadwalComp
