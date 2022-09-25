@@ -25,21 +25,21 @@ const FormEditJadwalComp = ({
     const [inputDateStart, setInputDateStart] = useState(
         new Date(popSelectedIdJdwl.start)
     );
-    const [inputJamStart, setInputJamStart] = useState(
-        format(new Date(popSelectedIdJdwl.start), "HH")
-    );
-    const [inputMenitStart, setInputMenitStart] = useState(
-        format(new Date(popSelectedIdJdwl.start), "mm")
-    );
+    // const [inputJamStart, setInputJamStart] = useState(
+    //     format(new Date(popSelectedIdJdwl.start), "HH")
+    // );
+    // const [inputMenitStart, setInputMenitStart] = useState(
+    //     format(new Date(popSelectedIdJdwl.start), "mm")
+    // );
     const [inputDateEnd, setInputDateEnd] = useState(
         new Date(popSelectedIdJdwl.end)
     );
-    const [inputJamEnd, setInputJamEnd] = useState(
-        format(new Date(popSelectedIdJdwl.end), "HH")
-    );
-    const [inputMenitEnd, setInputMenitEnd] = useState(
-        format(new Date(popSelectedIdJdwl.end), "mm")
-    );
+    // const [inputJamEnd, setInputJamEnd] = useState(
+    //     format(new Date(popSelectedIdJdwl.end), "HH")
+    // );
+    // const [inputMenitEnd, setInputMenitEnd] = useState(
+    //     format(new Date(popSelectedIdJdwl.end), "mm")
+    // );
     const [inputCatatan, setInputCatatan] = useState(popSelectedIdJdwl.catatan);
 
     const handleInputTyping = (event, editElm) => {
@@ -76,17 +76,25 @@ const FormEditJadwalComp = ({
             start:
                 format(inputDateStart, "yyyy-MM-dd") +
                 "T" +
-                inputJamStart +
-                ":" +
-                inputMenitStart +
-                ":00",
+                format(inputDateStart, "HH:mm:00"),
             end:
                 format(inputDateEnd, "yyyy-MM-dd") +
                 "T" +
-                inputJamEnd +
-                ":" +
-                inputMenitEnd +
-                ":00",
+                format(inputDateEnd, "HH:mm:00"),
+            // start:
+            //     format(inputDateStart, "yyyy-MM-dd") +
+            //     "T" +
+            //     inputJamStart +
+            //     ":" +
+            //     inputMenitStart +
+            //     ":00",
+            // end:
+            //     format(inputDateEnd, "yyyy-MM-dd") +
+            //     "T" +
+            //     inputJamEnd +
+            //     ":" +
+            //     inputMenitEnd +
+            //     ":00",
             catatan: inputCatatan,
             color: inputColor,
         };
@@ -147,17 +155,38 @@ const FormEditJadwalComp = ({
                         <DatePickComp
                             date={inputDateStart}
                             setDate={setInputDateStart}
+                            min={null}
+                            settedDef={false}
+                        />
+                        <TimePickComp
+                            date={inputDateStart}
+                            setDate={setInputDateStart}
+                        />
+                        {/* <DatePickComp
+                            date={inputDateStart}
+                            setDate={setInputDateStart}
                         />
                         <TimePickComp
                             hour={inputJamStart}
                             minute={inputMenitStart}
                             setHour={setInputJamStart}
                             setMinute={setInputMenitStart}
-                        />
+                        /> */}
                     </div>
                     <div>
                         <span>To:</span>
                         <DatePickComp
+                            date={inputDateEnd}
+                            setDate={setInputDateEnd}
+                            min={inputDateStart}
+                            settedDef={true}
+                        />
+                        <TimePickComp
+                            date={inputDateEnd}
+                            setDate={setInputDateEnd}
+                            min={inputDateStart}
+                        />
+                        {/* <DatePickComp
                             date={inputDateEnd}
                             setDate={setInputDateEnd}
                         />
@@ -166,7 +195,7 @@ const FormEditJadwalComp = ({
                             minute={inputMenitEnd}
                             setHour={setInputJamEnd}
                             setMinute={setInputMenitEnd}
-                        />
+                        /> */}
                     </div>
                 </div>
 

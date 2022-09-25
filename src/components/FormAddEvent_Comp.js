@@ -10,7 +10,7 @@ import {
     IoTimeOutline,
     IoAddCircleOutline,
 } from "react-icons/io5";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import axios from "axios";
 
@@ -18,11 +18,7 @@ const FormAddEventComp = ({ setLastUpdate, dateSelected, setSideNavOpen }) => {
     const [inputJudul, setInputJudul] = useState("");
     const [inputColor, setInputColor] = useState("blue");
     const [inputDateStart, setInputDateStart] = useState(dateSelected);
-    const [inputJamStart, setInputJamStart] = useState("00");
-    const [inputMenitStart, setInputMenitStart] = useState("00");
     const [inputDateEnd, setInputDateEnd] = useState(dateSelected);
-    const [inputJamEnd, setInputJamEnd] = useState("00");
-    const [inputMenitEnd, setInputMenitEnd] = useState("00");
     const [inputCatatan, setInputCatatan] = useState("");
 
     const handleInputTyping = (event, editElm) => {
@@ -54,23 +50,18 @@ const FormAddEventComp = ({ setLastUpdate, dateSelected, setSideNavOpen }) => {
 
     const handleSubmitFormAddJadwal = (event) => {
         event.preventDefault();
+        console.log();
         const payload = {
             id: Date.now(),
             title: inputJudul,
             start:
                 format(inputDateStart, "yyyy-MM-dd") +
                 "T" +
-                inputJamStart +
-                ":" +
-                inputMenitStart +
-                ":00",
+                format(inputDateStart, "HH:mm:00"),
             end:
                 format(inputDateEnd, "yyyy-MM-dd") +
                 "T" +
-                inputJamEnd +
-                ":" +
-                inputMenitEnd +
-                ":00",
+                format(inputDateEnd, "HH:mm:00"),
             catatan: inputCatatan,
             color: inputColor,
         };
@@ -131,12 +122,12 @@ const FormAddEventComp = ({ setLastUpdate, dateSelected, setSideNavOpen }) => {
                         <DatePickComp
                             date={inputDateStart}
                             setDate={setInputDateStart}
+                            min={null}
+                            settedDef={false}
                         />
                         <TimePickComp
-                            hour={inputJamStart}
-                            minute={inputMenitStart}
-                            setHour={setInputJamStart}
-                            setMinute={setInputMenitStart}
+                            date={inputDateStart}
+                            setDate={setInputDateStart}
                         />
                     </div>
                     <div>
@@ -144,12 +135,13 @@ const FormAddEventComp = ({ setLastUpdate, dateSelected, setSideNavOpen }) => {
                         <DatePickComp
                             date={inputDateEnd}
                             setDate={setInputDateEnd}
+                            min={inputDateStart}
+                            settedDef={false}
                         />
                         <TimePickComp
-                            hour={inputJamEnd}
-                            minute={inputMenitEnd}
-                            setHour={setInputJamEnd}
-                            setMinute={setInputMenitEnd}
+                            date={inputDateEnd}
+                            setDate={setInputDateEnd}
+                            min={inputDateStart}
                         />
                     </div>
                 </div>

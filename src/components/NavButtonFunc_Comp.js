@@ -9,6 +9,7 @@ import {
     subDays,
     getMonth,
     format,
+    set,
 } from "date-fns";
 
 import {
@@ -51,6 +52,18 @@ const NavButtonFuncComp = ({
         close === undefined
             ? setOpenCalendar(!openCalendar)
             : setOpenCalendar(close);
+    };
+
+    const handleSelectDate = (dateSel) => {
+        const currentHour = parseInt(format(today, "HH"));
+        const currentMinute = parseInt(format(today, "mm"));
+
+        setDateSelected(
+            set(new Date(dateSel), {
+                hours: currentHour,
+                minutes: currentMinute,
+            })
+        );
     };
 
     const handleOpenAddEvent = () => {
@@ -108,10 +121,8 @@ const NavButtonFuncComp = ({
                             <DayPicker
                                 mode="single"
                                 defaultMonth={dateSelected}
-                                onSelect={setDateSelected}
-                                fromYear={2015}
-                                toYear={2025}
-                                captionLayout="dropdown"
+                                onSelect={handleSelectDate}
+                                fromYear={2020}
                                 locale={id}
                             />
                         </div>

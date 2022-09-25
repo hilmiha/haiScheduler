@@ -39,7 +39,7 @@ const JadwalItemComp = ({ jadwalItm, mt, h, ml, setPopSelectedIdJdwl }) => {
 
                     <div
                         className={
-                            h <= 36
+                            h <= 71
                                 ? "hidden"
                                 : h <= 108
                                 ? "mt-3 line-clamp-1"
@@ -84,7 +84,7 @@ const JadwalInDayComp = ({ jadwalItms, setPopSelectedIdJdwl }) => {
         const end = new Date(jadwalItms[i].end);
         const midnight = startOfDay(new Date(jadwalItms[i].start));
         const marginTop = differenceInMinutes(start, midnight) * 1.2;
-        const heightItm = differenceInMinutes(end, start) * 1.2;
+        const heightItm = Math.max(differenceInMinutes(end, start) * 1.2, 36);
 
         processedJadwalDay.push(
             <JadwalItemComp

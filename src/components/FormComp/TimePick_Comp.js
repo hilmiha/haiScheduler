@@ -1,8 +1,18 @@
 import { useState, useEffect } from "react";
+import { format, setHours, setMinutes, isSameHour } from "date-fns";
 
-const ItemNumbers = (int, set) => {
+const ItemNumbers = (int, vari, set, type) => {
     const handleClick = () => {
-        set(int);
+        switch (type) {
+            case "hour":
+                set(setHours(new Date(vari), int));
+                break;
+            case "minute":
+                set(setMinutes(new Date(vari), int));
+                break;
+            default:
+                break;
+        }
     };
     return (
         <div
@@ -15,38 +25,54 @@ const ItemNumbers = (int, set) => {
     );
 };
 
-const TimePickComp = ({ hour, minute, setHour, setMinute }) => {
+const TimePickComp = ({ date, setDate, min }) => {
     const [openPickHour, setOpenPickHour] = useState(false);
     const [openPickMinute, setOpenPickMinute] = useState(false);
 
     useEffect(() => {
         setOpenPickHour(false);
-    }, [hour]);
+        setOpenPickMinute(false);
+    }, [date]);
+
+    const [minHour, setMinHour] = useState(0);
+    const [minMinute, setMinMinute] = useState(0);
 
     useEffect(() => {
-        setOpenPickMinute(false);
-    }, [minute]);
+        if (min !== undefined) {
+            setMinHour(parseInt(format(new Date(min), "H")));
+        }
+    }, [min]);
+
+    useEffect(() => {
+        if (min !== undefined) {
+            if (isSameHour(min, date)) {
+                setMinMinute(parseInt(format(new Date(min), "m")));
+            } else {
+                setMinMinute(0);
+            }
+        }
+    }, [date]);
 
     const ItemHours = [];
-    for (let i = 0; i < 24; i++) {
+    for (let i = minHour; i < 24; i++) {
         let num = "";
         if (i < 10) {
             num = "0" + i;
         } else {
             num = num + i;
         }
-        ItemHours.push(ItemNumbers(num, setHour));
+        ItemHours.push(ItemNumbers(num, date, setDate, "hour"));
     }
 
     const ItemMinute = [];
-    for (let j = 0; j < 59; j++) {
+    for (let j = minMinute; j < 60; j++) {
         let num = "";
         if (j < 10) {
             num = "0" + j;
         } else {
             num = num + j;
         }
-        ItemMinute.push(ItemNumbers(num, setMinute));
+        ItemMinute.push(ItemNumbers(num, date, setDate, "minute"));
     }
 
     const handleOpenPickHour = () => {
@@ -65,7 +91,7 @@ const TimePickComp = ({ hour, minute, setHour, setMinute }) => {
                     className="border border-slate-300 text-sm px-3 py-2 rounded-md shadow-sm text-center hover:bg-slate-100 cursor-pointer"
                     onClick={handleOpenPickHour}
                 >
-                    <span>{hour}</span>
+                    <span>{format(date, "HH")}</span>
                 </div>
                 <div className={"relative " + (openPickHour ? null : "hidden")}>
                     <div className="bg-slate-100 border border-slate-300 absolute w-20 p-2 z-10 h-40 overflow-auto rounded-md rounded-tr-none right-0 mt-2">
@@ -81,7 +107,7 @@ const TimePickComp = ({ hour, minute, setHour, setMinute }) => {
                     className="border border-slate-300 text-sm px-3 py-2 rounded-md shadow-sm text-center hover:bg-slate-100 cursor-pointer"
                     onClick={handleOpenPickMinute}
                 >
-                    <span>{minute}</span>
+                    <span>{format(date, "mm")}</span>
                 </div>
                 <div
                     className={"relative " + (openPickMinute ? null : "hidden")}
